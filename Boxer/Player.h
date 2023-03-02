@@ -20,7 +20,10 @@ public:
 
 private:
 	Animation animation;
+
 	sf::Vector2f velocity;
+	sf::Sound jumpsound;
+	sf::SoundBuffer jumpbuffer;
 
 	unsigned int row;
 	

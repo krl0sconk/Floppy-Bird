@@ -25,6 +25,21 @@ int main()
     pointsText.setFont(pointsFont);
     pointsText.setCharacterSize(80);
     pointsText.setPosition(sf::Vector2f(165.0f, 0.0f));
+    //Sounds
+    sf::SoundBuffer deathbuffer;
+    if (!deathbuffer.loadFromFile("Sounds/Death.ogg"))
+    {
+        std::cout << "Error with sound file!";
+    }
+    sf::Sound deathsound;
+    deathsound.setBuffer(deathbuffer);
+    sf::SoundBuffer pointbuffer;
+    if (!pointbuffer.loadFromFile("Sounds/Point.ogg"))
+    {
+        std::cout << "Error with sound file!";
+    }
+    sf::Sound pointsound;
+    pointsound.setBuffer(pointbuffer);
     //Background
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("Textures/dayBackground.png"))
@@ -40,7 +55,6 @@ int main()
     sf::Clock clock;
     //Points variables
     int points = 0;
-
     //Create view
     sf::View camera(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(360.0f, 640.0f));
     //Create the window
@@ -69,11 +83,16 @@ int main()
         if (pipeManager.collisionPlayer(player1))
         {
             player1.isDead = true;
+            if (player1.isDead)
+            {
+                deathsound.play();
+            }
         } 
         //Handle Points
         if (pipeManager.PlayerPassed(player1))
         {
             points++;
+            pointsound.play();
         }
         //Update here
         player1.Update(deltaTime); 

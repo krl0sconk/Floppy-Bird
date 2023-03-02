@@ -10,6 +10,11 @@ Player::Player(sf::Texture* playerTexture) :
 	playerSprite.setTexture(*playerTexture);
 	playerSprite.setScale(2.0f,2.0f);
 	playerSprite.setPosition(sf::Vector2f(180.0f, 320.0f));
+	if (!jumpbuffer.loadFromFile("Sounds/Jump.ogg"))
+	{
+		std::cout << "Error with sound file!";
+	}
+	jumpsound.setBuffer(jumpbuffer);
 }
 
 Player::~Player()
@@ -29,6 +34,7 @@ void Player::Update(float deltaTime)
 			row = 1;
 			velocity.y = -sqrtf(2.0f * 981.0f * 50);
 			isMouseButtonPressed = true;
+			jumpsound.play();
 		}
 		else
 		{
