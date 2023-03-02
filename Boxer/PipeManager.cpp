@@ -28,6 +28,23 @@ bool PipesManager::collisionPlayer(Player player1)
 	}
 	return false;
 }
+//Checks collision with player
+bool PipesManager::PlayerPassed(Player player1)
+{
+	for (Pipe& a : pipes)
+	{
+		if (!a.isPassed)
+		{
+			if (a.GetPosition().x < (player1.GetPosition().x))
+			{
+				a.isPassed = true;
+				return true;
+			}
+		}
+		
+	}
+	return false;
+}
 
 //Resets pipes
 void PipesManager::reset()

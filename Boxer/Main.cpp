@@ -15,7 +15,16 @@ int main()
     //Texture declaration
     sf::Texture playerTexture;
     Collision::CreateTextureAndBitmask(playerTexture, "Textures/yellowBird.png");
-    
+    //Points text
+    sf::Text pointsText;
+    sf::Font pointsFont;
+    if (!pointsFont.loadFromFile("Fonts/Points.ttf/"))
+    {
+        std::cout << "Error loading font!";
+    }
+    pointsText.setFont(pointsFont);
+    pointsText.setCharacterSize(80);
+    pointsText.setPosition(sf::Vector2f(165.0f, 0.0f));
     //Background
     sf::Texture backgroundTexture;
     if (!backgroundTexture.loadFromFile("Textures/dayBackground.png"))
@@ -39,6 +48,7 @@ int main()
 
     while (window.isOpen())
     {
+        pointsText.setString(std::to_string(points));
         RandomY = (rand() % 380) + 200;
         deltaTime = clock.restart().asSeconds();
         if (deltaTime > 1.0f / 20.0f)
@@ -61,7 +71,10 @@ int main()
             player1.isDead = true;
         } 
         //Handle Points
-
+        if (pipeManager.PlayerPassed(player1))
+        {
+            points++;
+        }
         //Update here
         player1.Update(deltaTime); 
         pipeManager.update(RandomY, deltaTime, player1.isDead, player1, points);
@@ -72,6 +85,7 @@ int main()
         // Draw here
         window.draw(backgroundSprite);
         pipeManager.draw(window);
+        window.draw(pointsText);
         player1.Draw(window);
         // Display the window
         window.display();
