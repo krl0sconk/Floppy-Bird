@@ -5,6 +5,7 @@
 #include "Collision.h"
 #include "Pipe.h"
 #include "PipeManager.h"
+#include "Menu.h"
 
 int main()
 {
@@ -38,6 +39,7 @@ int main()
     {
         std::cout << "Error with sound file!";
     }
+    bool deathPlayed = false;
     sf::Sound pointsound;
     pointsound.setBuffer(pointbuffer);
     //Background
@@ -50,6 +52,9 @@ int main()
     backgroundSprite.setTexture(backgroundTexture);
     //Player Object
     Player player1(&playerTexture);
+    //Menu
+    bool isPlaying = false;
+    Menu mainMenu(isPlaying);
     //Deltatime variables
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -62,12 +67,61 @@ int main()
 
     while (window.isOpen())
     {
-        pointsText.setString(std::to_string(points));
-        RandomY = (rand() % 380) + 200;
-        deltaTime = clock.restart().asSeconds();
-        if (deltaTime > 1.0f / 20.0f)
+        if (mainMenu.Update(window))
         {
-            deltaTime = 1.0f / 20.0f;
+            isPlaying = true;
+        }
+        if (isPlaying)
+        {
+            pointsText.setString(std::to_string(points));
+            RandomY = (rand() % 380) + 200;
+            deltaTime = clock.restart().asSeconds();
+            if (deltaTime > 1.0f / 20.0f)
+            {
+                deltaTime = 1.0f / 20.0f;
+            }
+
+            //Handle collisions with obstacles
+            if (pipeManager.collisionPlayer(player1))
+            {
+                player1.isDead = true;
+                if (player1.isDead)
+                {     
+                    if (!deathPlayed)
+                    {
+                        deathsound.play();
+                        deathPlayed = true;
+                    }
+                }
+            }
+            //Handle Points
+            if (pipeManager.PlayerPassed(player1))
+            {
+                points++;
+                pointsound.play();
+            }
+            //Update here
+            player1.Update(deltaTime);
+            pipeManager.update(RandomY, deltaTime, player1.isDead, player1, points);
+            camera.setCenter(player1.GetPosition().x, 320.0f);
+            // Clear the window
+            window.clear(sf::Color::Cyan);
+            window.setView(camera);
+            // Draw here
+            window.draw(backgroundSprite);
+            pipeManager.draw(window);
+            window.draw(pointsText);
+            player1.Draw(window);
+            // Display the window
+            window.display();
+        }
+        else
+        {
+            mainMenu.Update(window);
+            window.draw(backgroundSprite);
+            mainMenu.Draw(window);
+            // Display the window
+            window.display();
         }
         // Handle events
         sf::Event evnt;
@@ -78,36 +132,6 @@ int main()
                 window.close();
             }
         }
-
-        //Handle collisions with obstacles
-        if (pipeManager.collisionPlayer(player1))
-        {
-            player1.isDead = true;
-            if (player1.isDead)
-            {
-                deathsound.play();
-            }
-        } 
-        //Handle Points
-        if (pipeManager.PlayerPassed(player1))
-        {
-            points++;
-            pointsound.play();
-        }
-        //Update here
-        player1.Update(deltaTime); 
-        pipeManager.update(RandomY, deltaTime, player1.isDead, player1, points);
-        camera.setCenter(player1.GetPosition().x, 320.0f);
-        // Clear the window
-        window.clear(sf::Color::Cyan);
-        window.setView(camera);
-        // Draw here
-        window.draw(backgroundSprite);
-        pipeManager.draw(window);
-        window.draw(pointsText);
-        player1.Draw(window);
-        // Display the window
-        window.display();
     }
 
     return 0;

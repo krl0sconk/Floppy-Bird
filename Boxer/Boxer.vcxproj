@@ -137,6 +137,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PipeManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -144,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PipeManager.h" />
     <ClInclude Include="Player.h" />

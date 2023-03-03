@@ -1,5 +1,5 @@
 ﻿D:\Code\VS\Visual Studio\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Boxer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Main.cpp
-D:\Code\ProjectsSFML\Floppy Bird\Boxer\Main.cpp(12,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-D:\Code\ProjectsSFML\Floppy Bird\Boxer\Main.cpp(66,34): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Code\ProjectsSFML\Floppy Bird\Boxer\Main.cpp(13,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Code\ProjectsSFML\Floppy Bird\Boxer\Main.cpp(77,38): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Boxer.vcxproj -> D:\Code\ProjectsSFML\Floppy Bird\x64\Debug\Floppy Bird.exe
